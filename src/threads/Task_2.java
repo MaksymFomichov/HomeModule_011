@@ -3,19 +3,24 @@ package threads;
 import java.util.Scanner;
 import java.util.concurrent.Semaphore;
 
-public class Task_1 {
+public class Task_2 {
     private int peopleCount;
-    private static Semaphore semaphore;
+    private Semaphore semaphoreLibrary;
+    private Semaphore semaphoreDoorIn;
+    private Semaphore semaphoreDoorOut;
+    private final int TIME_DOOR = 500;
 
     public void enterData() {
         System.out.println("Количество людей:");
         peopleCount = checkInt();
         System.out.println("Максимальная вместимость:");
-        semaphore = new Semaphore(checkInt());
+        semaphoreLibrary = new Semaphore(checkInt());
+        semaphoreDoorIn = new Semaphore(1);
+        semaphoreDoorOut = new Semaphore(1);
         startProgram();
     }
 
-    // создаем потоки
+    // создаем людей
     private void startProgram() {
         for (int i = 1; i <= peopleCount; i++) {
             people(i);
@@ -26,10 +31,11 @@ public class Task_1 {
         new Thread(() -> {
             System.out.println("[" + count + "] человек пришел ко входу в библиотеку");
             try {
-                semaphore.acquire();
+                semaphoreLibrary.acquire();
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
+            doorIn(count);
             System.out.println("[" + count + "] вошел в библиотеку");
             int milliseconds = randomMilliseconds();
             System.out.println("[" + count + "] читает книгу " + milliseconds + " милисекунд");
@@ -38,9 +44,44 @@ public class Task_1 {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
+            doorOut(count);
             System.out.println("[" + count + "] вышел из библиотеки");
-            semaphore.release();
+            semaphoreLibrary.release();
         }).start();
+    }
+
+    private void doorIn(int count) {
+        System.out.println("[" + count + "] подошел к двери с улицы");
+        try {
+            semaphoreDoorIn.acquire();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        System.out.println("[" + count + "] проходит через дверь внутрь");
+        try {
+            Thread.sleep(TIME_DOOR);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        System.out.println("[" + count + "] прошел через дверь внутрь");
+        semaphoreDoorIn.release();
+    }
+
+    private void doorOut(int count) {
+        System.out.println("[" + count + "] подошел к двери с изнутри");
+        try {
+            semaphoreDoorOut.acquire();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        System.out.println("[" + count + "] проходит через дверь наружу");
+        try {
+            Thread.sleep(TIME_DOOR);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        System.out.println("[" + count + "] прошел через дверь наружу");
+        semaphoreDoorOut.release();
     }
 
     // проверяем на целое число и на больше 0

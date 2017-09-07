@@ -1,0 +1,81 @@
+package threads;
+
+import java.util.Scanner;
+import java.util.concurrent.Semaphore;
+
+public class Task_1 {
+    private int peopleCount;
+    private Semaphore semaphore;
+
+    public void enterData() {
+        System.out.println("Количество людей:");
+        peopleCount = checkInt();
+        System.out.println("Максимальная вместимость:");
+        semaphore = new Semaphore(checkInt());
+        startProgram();
+    }
+
+    // создаем потоки
+    private void startProgram() {
+        for (int i = 1; i <= peopleCount; i++) {
+            people(i);
+        }
+    }
+
+    private void people(int count) {
+        new Thread(() -> {
+            library(count);
+        }).start();
+    }
+
+    private void library(int count) {
+        System.out.println("[" + count + "] человек пришел ко входу в библиотеку");
+        try {
+            semaphore.acquire();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        System.out.println("[" + count + "] вошел в библиотеку");
+        int milliseconds = randomMilliseconds();
+        System.out.println("[" + count + "] читает книгу " + milliseconds + " милисекунд");
+        try {
+            Thread.sleep(milliseconds);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        System.out.println("[" + count + "] вышел из библиотеки");
+        semaphore.release();
+    }
+
+
+    // проверяем на целое число и на больше 0
+    private int checkInt() {
+        Scanner sc = new Scanner(System.in);
+        int value = 0;
+        while (true) {
+            try {
+                int tempValue = sc.nextInt();
+                if (tempValue > 0) {
+                    value = tempValue;
+                    sc.nextLine();
+                } else {
+                    System.out.println("Число должно быть больше 0!\nПовторите ввод:");
+                    sc.nextLine();
+                    checkInt();
+                }
+                break;
+            } catch (Exception e) {
+                System.out.println("Только целое число!\nПовторите ввод:");
+                sc.nextLine();
+            }
+        }
+        return value;
+    }
+
+    // получаем рандомное количество милисекунд
+    private int randomMilliseconds() {
+        int minMillisecond = 1000;
+        int maxMillisecond = 5000;
+        return (int) (minMillisecond + (Math.random() * maxMillisecond));
+    }
+}

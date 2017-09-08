@@ -5,7 +5,7 @@ import javafx.scene.shape.Rectangle;
 
 import java.util.List;
 
-public class MoveRectangle {
+public class MoveRectangle_1_2 {
 
     public static void startMoveMulty(int i, List<Rectangle> list) {
         new Thread(() -> {
@@ -93,7 +93,7 @@ public class MoveRectangle {
                         temp[0]++;
                     }
 
-                    System.out.println(i + ": x=" + list.get(i).getX() + ", y=" + list.get(i).getY());
+                    System.out.println(i + " " + list.get(i).getWidth() + " x=" + list.get(i).getX() + ", y=" + list.get(i).getY());
 
                     if (list.get(i).getX() + list.get(i).getWidth() >= Main.WIDTH_SCREEN && direction[i] == 2) {
                         direction[i] = 1;

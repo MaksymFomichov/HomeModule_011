@@ -28,6 +28,11 @@ public class RandomUtils {
         return (int) (MIN_WIDTH_RECT + (Math.random() * MAX_WIDTH_RECT));
     }
 
+    // получаем рандомную сторону прмоугольника
+    public static int getSide(int max) {
+        return (int) (1 + (Math.random() * (max - 1)));
+    }
+
     // получаем рандомную высоту прямоугольника
     public static int rndHeightRect() {
         return (int) (MIN_HEIGHT_RECT + (Math.random() * MAX_HEIGHT_RECT));

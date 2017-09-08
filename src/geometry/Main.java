@@ -53,14 +53,18 @@ public class Main extends Application {
             root.getChildren().clear();
             root.getChildren().addAll(btnMultiThreads, btnSingleThread, btnOptimalThreads);
             root.getChildren().addAll(RectGen.generateListRectangle());
+            // передаем только созданные прямоугольники, старые отсекаем
             for (int i = sizeCount; i < RectGen.getRectList().size(); i++) {
-                MoveRectangle.startMove(i, RectGen.getRectList());
+                MoveRectangle.startMoveMulty(i, RectGen.getRectList());
             }
             sizeCount = RectGen.getRectList().size();
         });
 
         btnSingleThread.setOnMouseClicked(event -> {
-
+            root.getChildren().clear();
+            root.getChildren().addAll(btnMultiThreads, btnSingleThread, btnOptimalThreads);
+            root.getChildren().addAll(RectGen.generateListRectangle());
+            MoveRectangle.startMoveSingle(RectGen.getRectList());
         });
 
         btnOptimalThreads.setOnMouseClicked(event -> {

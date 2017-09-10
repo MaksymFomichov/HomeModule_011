@@ -35,7 +35,7 @@ public class Task_1 {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            if (countThread >= capacity) {
+            if (countThread > capacity) {
                 System.out.println("[" + count + "] человек ждёт входа в библиотеку");
             }
             System.out.println("[" + count + "] вошел в библиотеку");

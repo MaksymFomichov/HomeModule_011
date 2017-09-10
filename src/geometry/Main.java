@@ -74,7 +74,7 @@ public class Main extends Application {
         textMaxWidth.setTranslateX(10);
         textMaxWidth.setTranslateY(240);
         textMaxWidth.setText("максимальная ширина прямоугольнка");
-        TextField maxWidth = new TextField();
+        //TextField maxWidth = new TextField();
         maxWidth.setTranslateX(10);
         maxWidth.setTranslateY(245);
         maxWidth.setText("100");

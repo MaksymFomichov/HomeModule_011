@@ -5,13 +5,17 @@ import java.util.concurrent.Semaphore;
 
 public class Task_1 {
     private int peopleCount;
+    private int capacity;
     private static Semaphore semaphore;
+    private int countThread;
+
 
     public void enterData() {
         System.out.println("Количество людей:");
         peopleCount = checkInt();
         System.out.println("Максимальная вместимость:");
-        semaphore = new Semaphore(checkInt());
+        capacity = checkInt();
+        semaphore = new Semaphore(capacity);
         startProgram();
     }
 
@@ -27,10 +31,15 @@ public class Task_1 {
             System.out.println("[" + count + "] человек пришел ко входу в библиотеку");
             try {
                 semaphore.acquire();
+                countThread++;
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
+            if (countThread >= capacity) {
+                System.out.println("[" + count + "] человек ждёт входа в библиотеку");
+            }
             System.out.println("[" + count + "] вошел в библиотеку");
+
             int milliseconds = randomMilliseconds();
             System.out.println("[" + count + "] читает книгу " + milliseconds + " милисекунд");
             try {

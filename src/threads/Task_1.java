@@ -49,6 +49,7 @@ public class Task_1 {
             }
             System.out.println("[" + count + "] вышел из библиотеки");
             semaphore.release();
+            countThread--;
         }).start();
     }
 

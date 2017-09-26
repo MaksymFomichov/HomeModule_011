@@ -81,6 +81,8 @@ public class Main extends Application {
 
 
         root = new Pane();
+        root.setMinHeight(HEIGHT_SCREEN);
+        root.setMinWidth(WIDTH_SCREEN);
         root.getChildren().addAll(btnMultiThreads, btnSingleThread, btnOptimalThreads, texMaxHeight, maxHeight, textMaxWidth, maxWidth);
 
         Scene scene = new Scene(root);

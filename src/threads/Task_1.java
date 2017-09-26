@@ -29,15 +29,16 @@ public class Task_1 {
     private void people(int count) {
         new Thread(() -> {
             System.out.println("[" + count + "] человек пришел ко входу в библиотеку");
+
+            if (semaphore.tryAcquire()) {
+                System.out.println("[" + count + "] человек ждёт входа в библиотеку");
+            }
             try {
                 semaphore.acquire();
-                countThread++;
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            if (countThread > capacity) {
-                System.out.println("[" + count + "] человек ждёт входа в библиотеку");
-            }
+
             System.out.println("[" + count + "] вошел в библиотеку");
 
             int milliseconds = randomMilliseconds();
@@ -49,7 +50,6 @@ public class Task_1 {
             }
             System.out.println("[" + count + "] вышел из библиотеки");
             semaphore.release();
-            countThread--;
         }).start();
     }
 
